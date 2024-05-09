@@ -1,1 +1,1 @@
-cs5008 with Prof. Lee
+Yinxia Shi: shi.yinx@northeastern.edu
