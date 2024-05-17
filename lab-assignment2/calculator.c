@@ -36,6 +36,8 @@ int main() {
             printf("divide by zero error\n");
             break;
         }
+        c = a / b;
+        printf("Quotient=%d\n", c);
         c = a % b;
         printf("Remainder=%d\n", c);
         break;
