@@ -55,6 +55,11 @@ int main() {
     printf("\nEnter the number of employees: ");
     scanf("%d", &n);
     employee_t* s = (employee_t*)malloc(n * sizeof(employee_t));
+    if (s == NULL) {
+        printf("Failed to allocate memory\n");
+        exit(-1);
+    }
     readData(n, s);
     display(n, s);
+    free(s);
 }
