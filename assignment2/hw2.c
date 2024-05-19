@@ -1,37 +1,49 @@
-// name: <your name here>
-// email: <your email here>
+// name:  Yinxia Shi
+// email: shi.yinx@northeastern.edu
 
 #include <stdio.h>   // stardard input/output library
 #include <stdbool.h> // standard boolean library: bool, true, false
 
 #define MAXSIZE 100
 
-bool isEmpty (int* s, int t) {
+bool isEmpty(int* s, int t) {
   // returns true if t = -1
 
   // INSERT YOUR CODE HERE
+  return t == -1;
 }
 
-bool isFull (int* s, int t) {
+bool isFull(int* s, int t) {
   // returns true if no more room in the stack
 
   // INSERT YOUR CODE HERE
+  return t == MAXSIZE - 1;
 }
 
 void push(int v, int* s, int* tp) {
   // put v onto the top of the stack s unless it is already full
 
   // INSERT YOUR CODE HERE
+  if (!isFull(s, *tp)) {
+    (*tp)++;
+    s[*tp] = v;
+  }
 }
 
-int pop (int* s, int* tp) {
+int pop(int* s, int* tp) {
   // return the top entry in the stack unless stack is empty
   // update s and *tp -- requires top to be passed by reference!
 
   // INSERT YOUR CODE HERE
+  int top_entry = 0;
+  if (!isEmpty(s, *tp)) {
+    top_entry = s[*tp];
+    (*tp)--;
+  } 
+  return top_entry;
 }
 
-int main () {
+int main() {
 
   int stack1[MAXSIZE]; // array in which stack will live
   int top1 = -1;       // top valid location in stack, -1 == empty
