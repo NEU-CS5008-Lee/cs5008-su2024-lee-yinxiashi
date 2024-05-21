@@ -27,6 +27,8 @@ void push(int v, int* s, int* tp) {
   if (!isFull(s, *tp)) {
     (*tp)++;
     s[*tp] = v;
+  } else {
+    printf("*** attempt to push into full stack ***\n");
   }
 }
 
