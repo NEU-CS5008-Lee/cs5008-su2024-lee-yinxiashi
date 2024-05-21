@@ -39,7 +39,9 @@ int pop(int* s, int* tp) {
   if (!isEmpty(s, *tp)) {
     top_entry = s[*tp];
     (*tp)--;
-  } 
+  } else {
+    printf("*** attempt to pop empty stack ***\n");
+  }
   return top_entry;
 }
 
