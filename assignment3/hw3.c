@@ -70,7 +70,11 @@ queue_t* newQueue() {
   queue_t* q_p;  // temp pointer to hold newly created queue
   
   // ***** INSERT YOUR CODE HERE *****
+  // Allocate memory for the queue.
   q_p = malloc(sizeof(queue_t));
+
+  // Set head and tail of the new queue to be NULL.
+  // Only do this when memory allocation succeed.
   if (q_p != NULL) {
     q_p->head_p = NULL;
     q_p->tail_p = NULL;
@@ -83,6 +87,7 @@ bool isEmpty(queue_t* q_p) {
   bool b = true;  // temporary bool to hold return value - initalize to default value
 
   // ***** INSERT YOUR CODE HERE *****
+  // If head of queue is not null, the queue is not empty.
   if (q_p != NULL) {
     if (q_p->head_p != NULL) {
       b = false;
@@ -100,6 +105,7 @@ void enqueue(queue_t* q_p, int d) {
       // queue is empty so insertion is easy
 
       // ***** INSERT YOUR CODE HERE *****
+      // If queue is empty, the new node will be the head and tail of the queue.
       n_p = newNode(d);
       q_p->head_p = n_p;
       q_p->tail_p = n_p;
@@ -107,6 +113,8 @@ void enqueue(queue_t* q_p, int d) {
       // queue is not empty
 
       // ***** INSERT YOUR CODE HERE *****
+      // If queue is not empty, creat a new node and connct the tail of queue.
+      // The new node become the tail of the queue.
       n_p = newNode(d);
       if (n_p != NULL) {
         q_p->tail_p->right_p = n_p;
@@ -141,8 +149,8 @@ int dequeue(queue_t* q_p) {
         // mulitple nodes in queue, clean up head pointer and new head of queue
 
         // ***** INSERT YOUR CODE HERE *****
-        n_p->right_p->left_p = NULL;
         q_p->head_p = n_p->right_p;
+        q_p->head_p->left_p = NULL;
       }
 
       freeNode(n_p);  // free up the node that was dequeued
