@@ -117,8 +117,8 @@ void enqueue(queue_t* q_p, int d) {
       // The new node become the tail of the queue.
       n_p = newNode(d);
       if (n_p != NULL) {
-        q_p->tail_p->right_p = n_p;
-        n_p->left_p = q_p->tail_p;
+        q_p->tail_p->left_p = n_p;
+        n_p->right_p = q_p->tail_p;
         q_p->tail_p = n_p;
       }
     }
@@ -149,8 +149,8 @@ int dequeue(queue_t* q_p) {
         // mulitple nodes in queue, clean up head pointer and new head of queue
 
         // ***** INSERT YOUR CODE HERE *****
-        q_p->head_p = n_p->right_p;
-        q_p->head_p->left_p = NULL;
+        q_p->head_p = n_p->left_p;
+        q_p->head_p->right_p = NULL;
       }
 
       freeNode(n_p);  // free up the node that was dequeued
