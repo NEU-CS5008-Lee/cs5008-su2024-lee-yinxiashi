@@ -1,5 +1,6 @@
-// name: <your name here>
-// email: <your email here>
+// name: Yinxia Shi
+// email: shi.yinx@northeastern.edu
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -8,12 +9,12 @@
 #define LIMIT 50
 #define RAND_RANGE 100
 
-void print_array(int* arr, int num){
+void print_array(int* arr, int num) {
   //print out source array in rows of num elements
-  for (int i=0; i < ((LIMIT/num)+1); i++) {
-    for (int j=0; j<num; j++) {
-      if (i*num+j < LIMIT) {
-	printf("%.2d ",arr[i*num+j]);
+  for (int i = 0; i < ((LIMIT / num) + 1); i++) {
+    for (int j = 0; j < num; j++) {
+      if (i * num + j < LIMIT) {
+        printf("%.2d ", arr[i * num + j]);
       }
     }
     printf("\n");
@@ -21,42 +22,70 @@ void print_array(int* arr, int num){
   printf("\n");
 }
 
-void generate_num(int* arr){
+void generate_num(int* arr) {
   //seed random numbers
-  srand((unsigned)time(NULL));
+  srand((unsigned) time(NULL));
 
   //initialize array with random numbers from 0..RAND_RANGE
-  for (int i=0; i<LIMIT; i++) {
+  for (int i = 0; i < LIMIT; i++) {
     arr[i] = rand() % RAND_RANGE;
   }
 }
 
-void selection_sort_2arr(int* source, int* dest, bool* valid)
-{
+void selection_sort_2arr(int* source, int* dest, bool* valid) {
   int smallest;      // current smallest element
 
-  for (int i=0; i<LIMIT; i++) {
-
-  // INSERT YOUR CODE HERE
-
+  for (int i = 0; i < LIMIT; i++) {
+    // INSERT YOUR CODE HERE
+    // Initialize the smallest number with the max value.
+    smallest = RAND_RANGE;
+    // Find the smallest number.
+    for (int j = 0; j < LIMIT; j++) {
+      if (valid[j] && source[j] < smallest) {
+        smallest = source[j];
+      }
+    }
+    // Place the smallest number in the new array.
+    dest[i] = smallest;
+    // Find the smallest number in the original array
+    // and delete it.
+    for (int j = 0; j < LIMIT; j++) {
+      if (valid[j] && source[j] == smallest) {
+        valid[j] = false;
+        break;
+      }
+    }
   }
 }
 
-
-void selection_sort_1arr(int* source)
-{
+void selection_sort_1arr(int* source) {
   int smallest;      // current smallest element
   int temp;          // temporary for swap
 
-  for (int i=0; i<LIMIT; i++) {
-
-  // INSERT YOUR CODE HERE
-
+  for (int i = 0; i < LIMIT; i++) {
+    // INSERT YOUR CODE HERE
+    // Initialize the smallest number with the current value.
+    smallest = source[i];
+    // Find the smallest number after the current value.
+    for (int j = i + 1; j < LIMIT; j++) {
+      if (source[j] < smallest) {
+        smallest = source[j];
+      }
+    }
+    // Find the position of smallest number
+    // and swap it with the position of current value.
+    for (int j = i; j < LIMIT; j++) {
+      if (source[j] == smallest) {
+        temp = source[j];
+        source[j] = source[i];
+        source[i] = temp;
+        break;
+      }
+    }
   }
 }
 
-
-int main(){
+int main() {
 
   int source[LIMIT]; // array to hold input data values
   int dest[LIMIT];   // array to hold sorted data values
@@ -64,7 +93,7 @@ int main(){
   bool valid[LIMIT]; // array that indicates which input values are valid
 
   //initialize valid array - at begining the full array is valid
-  for (int i=0; i<LIMIT; i++) {
+  for (int i = 0; i < LIMIT; i++) {
     valid[i] = true;
   }
  
