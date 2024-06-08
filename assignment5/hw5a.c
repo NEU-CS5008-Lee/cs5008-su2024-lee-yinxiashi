@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// name:  Yinxia Shi
+// email: shi.yinx@northeastern.edu
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,64 +16,80 @@ char randChar() {
   // ,,,
   // 94 -> x7E -> '~'
   // see https://ascii.cl
-  return ((char)((rand() % RAND_RANGE) + 0x20));
+  return (char)(rand() % RAND_RANGE + 0x20);
 }
 
 // return location mid way between left and right
-int midPoint(int left, int right){
+int midPoint(int left, int right) {
   // note integer division always returns an integer
-  return( left + (right-left)/2 );
+  return left + (right - left) / 2;
 }
 
 // min of two integers
-int findMin(int a, int b){
-  if (a<=b) {return a;} else {return b;}
+int findMin(int a, int b) {
+  if (a <= b) {
+    return a;
+  } else {
+    return b;
+  }
 }
 
 // merge two sorted sub arrays
 void mergeIt(
-	   char* data,
-	   int leftStart,
-	   int leftStop,
-	   int rightStart,
-	   int rightStop) {
-  
-
+     char* data,
+     int leftStart,
+     int leftStop,
+     int rightStart,
+     int rightStop) {
   // ADD YOUR CODE HERE
-  
+  int temp = leftStart;
+  int newLength = rightStop - leftStart + 1;
+  char* arr = malloc(newLength * sizeof(char));
+  int position = 0;
+  while (leftStart <= leftStop && rightStart <= rightStop) {
+    if (data[leftStart] <= data[rightStart]) {
+      arr[position++] = data[leftStart++];
+    } else {
+      arr[position++] = data[rightStart++];
+    }
+  }
+  while (leftStart <= leftStop) {
+    arr[position++] = data[leftStart++];
+  }
+  while (rightStart <= rightStop) {
+    arr[position++] = data[rightStart++];
+  }
+  for (int i = 0; i < newLength; i++) {
+    data[i + temp] = arr[i];
+  }
+  free(arr);
   return;
 }
-
-
 
 // break data array up into halves until down to single elements
 // then merge them
 void msort(char* data, int left, int right) {
-
   if (left >= right) {
     // base case of 1 element
     return;
   } else {
     // sort left half
-    msort(data, left, midPoint(left,right));
+    msort(data, left, midPoint(left, right));
 
     // sort right half
-    msort(data, midPoint(left,right)+1, right);
+    msort(data, midPoint(left, right) + 1, right);
 
     // merge left and right halves
     mergeIt(
-	    data,
-	    left, midPoint(left,right),
-	    midPoint(left,right)+1, right
-	    );
+      data,
+      left, midPoint(left, right),
+      midPoint(left, right) + 1, right
+      );
   }
   return;
 }
 
-
-
-int main(){
-
+int main() {
   char source[LIMIT]; // array to hold input data values
 
   int i;             // loop variable
@@ -84,16 +100,16 @@ int main(){
   srand((unsigned)time(NULL));
 
   //initialize source array with random character
-  for (i=0; i<LIMIT; i++) {
+  for (i = 0; i < LIMIT; i++) {
     source[i] = randChar();
   }
 
   //print out source array in rows of 20 elments
   printf("Source array:\n");
-  for (i=0; i < ((LIMIT/20)+1); i++) {
-    for (j=0; j<20; j++) {
-      if (i*20+j < LIMIT) {
-	printf("%c ",source[i*20+j]);
+  for (i = 0; i < LIMIT / 20 + 1; i++) {
+    for (j = 0; j < 20; j++) {
+      if (i * 20 + j < LIMIT) {
+        printf("%c ", source[i * 20 + j]);
       }
     }
     printf("\n");
@@ -101,15 +117,15 @@ int main(){
   printf("\n");
 
   // do the sorthing
-  msort(source, 0, LIMIT-1);
+  msort(source, 0, LIMIT - 1);
 
   
   //print out sorted array in rows of 10
   printf("Destination array:\n");
-  for (i=0; i < ((LIMIT/10)+1); i++) {
-    for (j=0; j<10; j++) {
-      if (i*10+j < LIMIT) {
-	printf("%c ",source[i*10+j]);
+  for (i = 0; i < LIMIT / 10 + 1; i++) {
+    for (j = 0; j < 10; j++) {
+      if (i * 10 + j < LIMIT) {
+        printf("%c ", source[i * 10 + j]);
       }
     }
     printf("\n");

@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// name:  Yinxia Shi
+// email: shi.yinx@northeastern.edu
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,32 +16,50 @@ char randChar() {
   // ,,,
   // 94 -> x7E -> '~'
   // see https://ascii.cl
-  return ((char)((rand() % RAND_RANGE)+0x20));
+  return ((char)((rand() % RAND_RANGE) + 0x20));
 }
 
 // return the value of a char unless it is lower case
 // in which case return the upper case of the character
-char upperChar(char c){
-  if ((c<'a') || (c>'z')){
-    return(c);
+char upperChar(char c) {
+  if ((c < 'a') || (c > 'z')) {
+    return c;
   } else {
     // if you forget the displacement of lower to upper case
     // just let the computer figure it out for you!
-    return(c-('a'-'A'));
+    return c - ('a' - 'A');
   }
 }
 
-
-
 // pick pivot and then sort small and big parts 
 void quicky(char* data, int left, int right) {
-
   // ADD YOUR CODE HERE
+  // Base case: subarray with one or zero elements.
+  if (left >= right) {
+    return;
+  }
+  // Choose the rightmost element (data[right]) as the pivot.
+  char pivot = upperChar(data[right]);
+  int i = left - 1;
+  // Partition the array around the pivot.
+  for (int j = left; j <= right - 1; j++) {
+    if (upperChar(data[j]) <= pivot) {
+      i++;
+      char temp = data[j];
+      data[j] = data[i];
+      data[i] = temp;
+    }
+  }
+  // Place the pivot in its final position.
+  i++;
+  char temp = data[i];
+  data[i] = data[right];
+  data[right] = temp;
+  quicky(data, left, i - 1);
+  quicky(data, i + 1, right);
 
   return;
 }
-
-
 
 int main(){
 
@@ -50,21 +68,20 @@ int main(){
   int i;             // loop variable
   int j;             // loop variable
 
-
   //seed random numbers
   srand((unsigned)time(NULL));
 
   //initialize source array with random character
-  for (i=0; i<LIMIT; i++) {
+  for (i = 0; i < LIMIT; i++) {
     source[i] = randChar();
   }
 
   //print out source array in rows of 20 elments
   printf("Source array:\n");
-  for (i=0; i < ((LIMIT/20)+1); i++) {
-    for (j=0; j<20; j++) {
-      if (i*20+j < LIMIT) {
-	printf("%c ",source[i*20+j]);
+  for (i = 0; i < LIMIT / 20 + 1; i++) {
+    for (j = 0; j < 20; j++) {
+      if (i * 20 + j < LIMIT) {
+        printf("%c ", source[i * 20 + j]);
       }
     }
     printf("\n");
@@ -72,20 +89,19 @@ int main(){
   printf("\n");
 
   // do the sorting
-  quicky(source, 0, LIMIT-1);
+  quicky(source, 0, LIMIT - 1);
 
-  
   //print out sorted array in rows of 10
   printf("Destination array:\n");
-  for (i=0; i < ((LIMIT/10)+1); i++) {
-    for (j=0; j<10; j++) {
-      if (i*10+j < LIMIT) {
-	printf("%c ",source[i*10+j]);
+  for (i = 0; i < LIMIT / 10 + 1; i++) {
+    for (j = 0; j < 10; j++) {
+      if (i * 10 + j < LIMIT) {
+        printf("%c ", source[i * 10 + j]);
       }
     }
     printf("\n");
   }
   printf("\n");
-  
+
   return 0;
 }
