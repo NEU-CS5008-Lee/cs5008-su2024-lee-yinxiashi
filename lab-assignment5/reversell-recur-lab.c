@@ -16,6 +16,10 @@ typedef struct list{
 /*-----creating the nodes----------*/
 node_t* newNode(int num) {
     node_t* temp = malloc(sizeof(node_t));
+    if (temp == NULL) {
+        printf("Failed to create new Node\n");
+        exit(1);
+    }
     temp->data = num;
     temp->next = NULL;
     return temp;
@@ -24,6 +28,10 @@ node_t* newNode(int num) {
 /*---creating linked list----*/
 List* init_LL() {
     List* temp = malloc(sizeof(List));
+    if (temp == NULL) {
+        printf("Failed to create a new List\n");
+        exit(1);
+    }
     temp->head = NULL;
     return temp;
 }
