@@ -19,7 +19,7 @@ typedef struct tnd {
 // "new" function to create a tree node, set data value to d and childrent to NULL
 tnode_t* newTNode(char d) {
   tnode_t* np;
-  np = (tnode_t*)malloc(sizeof(tnode_t));
+  np = malloc(sizeof(tnode_t));
   if (np != NULL) {
     np->data = d;
     np->left = NULL;
@@ -244,26 +244,77 @@ void freeQueue(queue_t* qp) {
 
 void preorder (tnode_t* np) {
   // INSERT YOUR CODE HERE
-
+  // Base case: If the tree is empty, there's nothing to print
+  if (np == NULL) {
+    return;
+  }
+  // Process the root node (print data in preorder)
+  printf("%c", np->data);
+  // Recursively traverse the left subtree
+  preorder(np->left);
+  // Recursively traverse the right subtree
+  preorder(np->right);
   return;
 }
 
 void inorder (tnode_t* np) {
   // INSERT YOUR CODE HERE
-  
+  // Base case: If the tree is empty, do nothing
+  if (np == NULL) {
+    return;
+  }
+  // Recursively traverse the left subtree
+  inorder(np->left);
+  // Process the root node (print data in inorder)
+  printf("%c", np->data);
+  // Recursively traverse the right subtree
+  inorder(np->right);
   return;
 }
 
 void postorder (tnode_t* np) {
   // INSERT YOUR CODE HERE
-  
+  // Base case: If the tree is empty, do nothing
+  if (np == NULL) {
+    return;
+  }
+  // Recursively traverse the left subtree
+  postorder(np->left);
+  // Recursively traverse the right subtree
+  postorder(np->right);
+  // Process the root node (print data in postorder)
+  printf("%c", np->data);
   return;
 }
 
 
 void breadthFirst (tnode_t* root) {
   // INSERT YOUR CODE HERE
-  
+  // Base case: If the tree is empty, do nothing
+  if (root == NULL) {
+    return;
+  }
+  // Create a queue to store the tree nodes during level-order traversal
+  queue_t* myQueue = newQueue();
+  // Enqueue the root node to start the traversal
+  enqueue(myQueue, root);
+  // Loop as long as the queue is not empty (i.e., there are nodes to process)
+  while (!isEmpty(myQueue)) {
+    // Dequeue a node from the queue (FIFO - First In, First Out)
+    tnode_t* curr = dequeue(myQueue);
+    // Process the node (print data in this case)
+    printf("%c", curr->data);
+    // Enqueue the left child if it exists (for processing in the next iteration)
+    if (curr->left != NULL) {
+      enqueue(myQueue, curr->left);
+    }
+    // Enqueue the right child if it exists (for processing in the next iteration)
+    if (curr->right != NULL) {
+      enqueue(myQueue, curr->right);
+    }
+  }
+  // No return value needed after the loop since the function has processed
+  // all nodes level-by-level  
   return;
 }
 
