@@ -313,6 +313,9 @@ void breadthFirst (tnode_t* root) {
       enqueue(myQueue, curr->right);
     }
   }
+
+  // Free up the queue.
+  freeQueue(myQueue);
   // No return value needed after the loop since the function has processed
   // all nodes level-by-level  
   return;
