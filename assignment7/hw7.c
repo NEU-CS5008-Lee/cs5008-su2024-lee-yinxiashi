@@ -1,11 +1,10 @@
-// name: <your name here>
-// email: <your email here>
+// name:  Yinxia Shi
+// email: shi.yinx@northeastern.edu
 
 // format of document is a bunch of data lines beginning with an integer (rank which we ignore)
 // then a ',' followed by a double-quoted string (city name)
 // then a ',' followed by a double-quoted string (population) - ignore commas and covert to int; or (X) - convert to 0
 // then a lot of entries that are ignored
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,14 +37,12 @@ bool isDigit(char c) {
 // append character c to string s
 void appendChar(char* s, char c) {
   char charToStr[2];           // convert char to string
-    charToStr[0] = c;
-    charToStr[1] = '\0';          // put NUL to terminate string of one character
-    strcat(s, charToStr);
+  charToStr[0] = c;
+  charToStr[1] = '\0';         // put NUL to terminate string of one character
+  strcat(s, charToStr);
 }
 
-
-
-int main () {
+int main() {
 
   char inputLine[MAXSTRING];   // temporary string to hold input line
   char cityStr[MAXSTRING];     // city name
@@ -54,16 +51,16 @@ int main () {
   int  state;                  // FSM state
   int  nextChar;               // index of next character in input string
   char temp[MAXSTRING];        // temp string to build up extracted strings from input characters
-  
- 
+
+
   FILE* fp;
-  fp = fopen("pop.csv","r");
+  fp = fopen("pop.csv", "r");
 
   if (fp != NULL) {
     fgets(inputLine, MAXSTRING, fp); // prime the pump for the first line
 
     // ***** BEGIN FINTITE STATE MACHINE *****
-    
+
     // STARTSTATE: digit -> S1
     // S1: digit -> S1; , -> S2
     // S2: " -> S3
@@ -74,49 +71,104 @@ int main () {
     // ACCEPTSTATE: done!
     // else go to ERRORSTATE
     //
-    while (feof(fp) == 0){
-
+    while (feof(fp) == 0) {
       nextChar = 0;
       state = STARTSTATE; 
-      strcpy(temp,"");       // temp = ""
+      strcpy(temp, "");       // temp = ""
+      strcpy(cityStr, "");
+      popInt = 0;
 
-      if (nextChar >= strlen(inputLine)){
-	// if no input string then go to ERRORSTATE
-	state = ERRORSTATE;
+      if (nextChar >= strlen(inputLine)) {
+        // if no input string then go to ERRORSTATE
+        state = ERRORSTATE;
       } 
 
       while ((state != ERRORSTATE) && (state != ACCEPTSTATE)) {
-	switch (state) {
-	  case STARTSTATE:
-	    // look a digit to confirm a valid line
-	    if (isDigit(inputLine[nextChar])) {
-	      state = S1;
-	      appendChar(temp, inputLine[nextChar]);
-	    } else {
-	      state = ERRORSTATE;
-	    }  
-	    break;
+        switch (state) {
+        case STARTSTATE:
+          // look a digit to confirm a valid line
+          if (isDigit(inputLine[nextChar])) {
+            state = S1;
+            appendChar(temp, inputLine[nextChar]);
+          } else {
+            state = ERRORSTATE;
+          }  
+          break;
+          // ADD YOUR CODE HERE
 
+        case S1:
+          if (isDigit(inputLine[nextChar])) {
+            state = S1;
+            appendChar(temp, inputLine[nextChar]);
+          } else if (inputLine[nextChar] == ',') {
+            state = S2;
+          } else {
+            state = ERRORSTATE;
+          } 
+          break;
 
-	  // ADD YOUR CODE HERE
- 
-	    
-	  case ACCEPTSTATE:
-	    // nothing to do - we are done!
-	    break;
-	    
-	  default:
-	    state = ERRORSTATE;
-	    break;
-	} // end switch
+        case S2:
+          if (inputLine[nextChar] == '"') {
+            state = S3;
+          } else {
+            state = ERRORSTATE;
+          } 
+          break;
 
-	// advance input
-	nextChar++;
-	
-      }	// end while state machine loop
+        case S3:
+          if (inputLine[nextChar] != '"') {
+            state = S3;
+            appendChar(cityStr, inputLine[nextChar]);
+          } else {
+            state = S4;
+          }
+          break;
+
+        case S4:
+          if (inputLine[nextChar] == ',') {
+            state = S5;
+          } else {
+            state = ERRORSTATE;
+          } 
+          break;
+
+        case S5:
+          if (inputLine[nextChar] == '"') {
+            state = S6;
+          } else if (inputLine[nextChar] == '(') {
+            state = ACCEPTSTATE;
+          } else {
+            state = ERRORSTATE;
+          } 
+          break;
+
+        case S6:
+          if (isDigit(inputLine[nextChar])) {
+            state = S6;
+            popInt = popInt * 10 + inputLine[nextChar] - '0';
+          } else if (inputLine[nextChar] == ',') {
+            state = S6;
+          } else if (inputLine[nextChar] == '"') {
+            state = ACCEPTSTATE;
+          } else {
+            state = ERRORSTATE;
+          }
+          break;
+
+        case ACCEPTSTATE:
+          // nothing to do - we are done!
+          break;
+
+        default:
+          state = ERRORSTATE;
+          break;
+        } // end switch
+
+        // advance input
+        nextChar++;
+      } // end while state machine loop
 
       // ***** END FINITE STATE MACHINE *****
-	  
 
       // process the line - print out raw line and the parsed fields
       printf("> %.60s\n", inputLine);
@@ -124,15 +176,13 @@ int main () {
 
       // get next line
       fgets(inputLine, MAXSTRING, fp);
-      
     } // end while file input loop
-    
 
     fclose(fp);
-  
+
   } else {
     printf("File not found!\n");
   }
-  
+
   return 0;
 }
