@@ -67,6 +67,15 @@ void addConnection(Graph* graph, char* person, char* friend) {
     int p = search(person, graph); // search for the person in the graph, index or position
     int n = numberoflistspresent(graph);
     //insert your code here
+    if (p == -1) {
+        p = n;
+        graph->adjLists[p] = createNode(person);
+    }
+    node* temp = graph->adjLists[p];
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = createNode(friend);
 }
 
 /* function to print the adjacency list representation of a graph */
