@@ -212,7 +212,24 @@ int main () {
 
   printf("\nBREADTH FIRST TRAFERSAL\n");
   while (!isEmpty(q)) {
-    // INSERT YOUR CODE HERE
+    // Get the next element in the queue.
+    current = dequeue(q);
+    // Check if the element has been processed.
+    // If the element has been processed, continue to check other element.
+    if (done[current]) {
+      continue;
+    }
+    printf("NODE: %d\n", current);
+    // If the element has not been processed, process itself.
+    // Change the value of current to be true in the array done.
+    done[current] = true;
+    // Go through all elements that current can access.
+    for (j = 0; j < GSIZE; j++) {
+      // If the element can be accessed by current and has not been processed, add it to the queue.
+      if (E[current][j] && !done[j]) {
+        enqueue(q, j);
+      }
+    }
   }
 
   // print out nodes that are unreachable
