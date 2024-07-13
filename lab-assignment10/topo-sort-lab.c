@@ -1,5 +1,5 @@
-// Enter your name here
-//Enter your email here
+// Yinxia Shi
+// shi.yinx@northeastern.edu
 
 #include<stdio.h>
 #include<stdlib.h>
