@@ -73,8 +73,7 @@ void printAdjMatrix(int arr[][MAX],int V)
 {
      int i, j;
 
-     for(i =1; i<=V; i++)
-     {
+     for(i =1; i<=V; i++) {
          for(j = 1; j<=V; j++)
          {
              printf("%6d ", arr[i][j]);
@@ -84,11 +83,15 @@ void printAdjMatrix(int arr[][MAX],int V)
 }
 
 /*calculate the indegree of each vertex by looping through all vertices and edges in the adjacency matrix*/
-int find_indegree(int arr[][MAX], int node,int n)
-{
+int find_indegree(int arr[][MAX], int node,int n) {
     int i,in_deg = 0;
-    
     //insert your code here
+    for (i = 1; i <= n; i++) {
+        if (arr[i][node]) {
+            in_deg++;
+        }
+    }
+    return in_deg;
     
 }
 
@@ -97,14 +100,26 @@ void topologicalOrder(int arr[][MAX], Queue *t, int n)
 {
     int j=0,delNode,i;
     int result[MAX],indeg[MAX];
-    
-    
-    
-    
     //insert your code here
-    
-    
-    
+    for (i = 1; i <= n; i++) {
+        indeg[i] = find_indegree(arr, i, n);
+        if (indeg[i] == 0) {
+            enqueue(t, i);
+        }
+    }
+
+    while (!isEmpty(t->front)) {
+        delNode = dequeue(t);
+        result[j++] = delNode;
+        for (i = 1; i <= n; i++) {
+            if (arr[delNode][i]) {
+                indeg[i]--;
+                if (indeg[i] == 0) {
+                    enqueue(t, i);
+                }
+            }
+        }
+    }
     printf("topological ordering\n");
     for(i=0; i<j;i++)
         printf("%d\t",result[i]);
