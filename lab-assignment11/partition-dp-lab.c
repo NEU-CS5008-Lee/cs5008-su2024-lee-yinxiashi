@@ -1,3 +1,5 @@
+// Yinxia Shi
+// shi.yinx@northeastern.edu
 
 #include<stdio.h>
 #define MAXN 45              /* largest number of books */
